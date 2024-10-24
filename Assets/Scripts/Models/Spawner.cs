@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using Assets.Scripts.Managers;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Models
 {
     public class Spawner : MonoBehaviour
     {

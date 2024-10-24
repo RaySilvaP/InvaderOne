@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Assets.Scripts.Player
+namespace Assets.Scripts.Models
 {
     public class Gun : MonoBehaviour
     {
@@ -20,8 +20,9 @@ namespace Assets.Scripts.Player
         {
             var obj = Instantiate(_projectilePrefab, _muzzle.position, Quaternion.identity);
             var projectile = obj.AddComponent<Projectile>();
-            projectile._direction = transform.right.normalized;
-            projectile._acceleration = PROJECTILE_ACCELERATION;
+            var movement = obj.AddComponent<Movement>();
+            movement._direction = transform.right.normalized;
+            movement._acceleration = PROJECTILE_ACCELERATION;
             projectile.Damage = _damage;
 
             Destroy(obj, PROJECTILE_LIFETIME_SECONDS);

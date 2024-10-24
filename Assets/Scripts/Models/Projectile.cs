@@ -1,24 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Models
 {
-    public class Projectile : Movement
+    public class Projectile : MonoBehaviour
     {
         public float Damage { get; set; }
         public int MaxPenetration { get; set; }
         private int _penetrationCount;
-
-        void Update()
-        {
-            Accelerate();
-        }
-
-        void FixedUpdate()
-        {
-            transform.Translate(Speed);
-        }
 
         void OnTriggerEnter2D(Collider2D other)
         {

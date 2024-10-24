@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Managers;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Models
 {
     public class Enemy : Movement, IDamageable
     {

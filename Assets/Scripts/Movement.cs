@@ -1,17 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public abstract class Movement : MonoBehaviour
+    public class Movement : MonoBehaviour
     {
         public float _acceleration, _brakeForce;
         public const float MIN_VELOCITY = 0.001f, MAX_VELOCITY = 200;
         public Vector2 _direction;
         public Vector2 Speed { get; private set; }
-        public Vector2 Resistance { get; private set; }
+        private Vector2 _resistance;
 
         void Update()
         {
@@ -23,15 +20,15 @@ namespace Assets.Scripts
             transform.Translate(Speed);
         }
 
-        protected void Accelerate()
+        private void Accelerate()
         {
-            Resistance = _brakeForce * Time.deltaTime * Speed;
-            Speed -= Resistance;
+            _resistance = _brakeForce * Time.deltaTime * Speed;
+            Speed -= _resistance;
             Speed += _acceleration * Time.deltaTime * _direction.normalized;
             LimitVelocity();
         }
 
-        protected void LimitVelocity()
+        private void LimitVelocity()
         {
             if (Speed.magnitude > MAX_VELOCITY)
             {

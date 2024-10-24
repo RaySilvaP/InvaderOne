@@ -1,12 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
-namespace Assets.Scripts.Player
+namespace Assets.Scripts
 {
-    public class FollowMouse : MonoBehaviour
+    public class CursorObserver : MonoBehaviour
     {
         public const int MAX_ROTATION = -15, MIN_ROTATION = -165;
         public float _angle;
@@ -15,7 +11,7 @@ namespace Assets.Scripts.Player
         // Update is called once per frame
         void Update()
         {
-            SetMousePosition();
+            GetMousePosition();
             SetAngle();
             LimitAngle();
         }
@@ -25,17 +21,17 @@ namespace Assets.Scripts.Player
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, _angle));
         }
 
-        private void SetMousePosition()
-        {
-            var pos = Input.mousePosition;
-            _mousePos = Camera.main.ScreenToWorldPoint(pos);
-        }
-
         private void SetAngle()
         {
             _direction = _mousePos - (Vector2)transform.position;
             _direction.Normalize();
-            _angle = MathF.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
+            _angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
+        }
+
+        private void GetMousePosition()
+        {
+            var pos = Input.mousePosition;
+            _mousePos = Camera.main.ScreenToWorldPoint(pos);
         }
 
         private void LimitAngle()
