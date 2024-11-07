@@ -21,8 +21,8 @@ namespace Assets.Scripts.Models
             var obj = Instantiate(_projectilePrefab, _muzzle.position, Quaternion.identity);
             var projectile = obj.AddComponent<Projectile>();
             var movement = obj.AddComponent<Movement>();
-            movement._direction = transform.right.normalized;
-            movement._acceleration = PROJECTILE_ACCELERATION;
+            movement.Direction = transform.right.normalized;
+            movement.Acceleration = PROJECTILE_ACCELERATION;
             projectile.Damage = _damage;
 
             Destroy(obj, PROJECTILE_LIFETIME_SECONDS);

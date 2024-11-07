@@ -29,7 +29,7 @@ namespace Assets.Scripts.Player
             else
                 direction.y = 0;
 
-            _movement._direction = direction;
+            _movement.Direction = direction;
         }
     }
 }

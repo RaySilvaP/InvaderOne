@@ -3,42 +3,31 @@ using Assets.Scripts.Managers;
 
 namespace Assets.Scripts.Models
 {
-    public class Enemy : Movement, IDamageable
+    public class Enemy : MonoBehaviour, IDamageable
     {
+        [SerializeField]
+        private Movement _movement;
         public const float MAX_HEALTH = 100;
-        public float _health = 100, _distanceWeight;
-        public Transform _combatZone;
-        public Vector2 _point;
-
-        // Start is called before the first frame update
-        void Start()
-        {
-            SetPoint();
-        }
+        [SerializeField]
+        private float  _distanceWeight;
+        private float _health = 100;
+        public Vector2 TargetPos {private get; set;}
 
         // Update is called once per frame
         void FixedUpdate()
         {
             SetDirection();
             SetAcceleration();
-            transform.Translate(Speed);
-        }
-
-        void SetPoint()
-        {
-            _combatZone = GameObject.Find("CombatZone").transform;
-            int index = Random.Range(0, _combatZone.childCount);
-            _point = _combatZone.GetChild(index).position;
         }
 
         void SetDirection()
         {
-            _direction = (_point - (Vector2)transform.position).normalized;
+            _movement.Direction = (TargetPos - (Vector2)transform.position).normalized;
         }
 
         void SetAcceleration()
         {
-            _acceleration = Vector2.Distance(transform.position, _point) * _distanceWeight;
+            _movement.Acceleration = Vector2.Distance(transform.position, TargetPos) * _distanceWeight;
         }
 
         public void TakeDamage(float damage)
@@ -47,7 +36,7 @@ namespace Assets.Scripts.Models
             if (_health <= 0)
             {
                 Destroy(gameObject);
-                SceneManager.Inst._enemyCount--;
+                SceneManager.Inst.EnemyCount--;
             }
         }
     }

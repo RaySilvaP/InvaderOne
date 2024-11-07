@@ -1,31 +1,30 @@
+using Assets.Scripts.Extensions;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
     public class CursorObserver : MonoBehaviour
     {
-        public const int MAX_ROTATION = -15, MIN_ROTATION = -165;
-        public float _angle;
-        public Vector2 _mousePos, _direction;
-
+        private Vector2 _mousePos, _direction;
+        [SerializeField]
+        private Vector2 _maxDirection = new Vector2(1, 1), _minDirection = new Vector2(-1, -1);
         // Update is called once per frame
         void Update()
         {
             GetMousePosition();
-            SetAngle();
+            SetDirection();
             LimitAngle();
         }
 
         void FixedUpdate()
         {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, _angle));
+            transform.LookAt2D(_direction);
         }
 
-        private void SetAngle()
+        private void SetDirection()
         {
             _direction = _mousePos - (Vector2)transform.position;
             _direction.Normalize();
-            _angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
         }
 
         private void GetMousePosition()
@@ -36,10 +35,15 @@ namespace Assets.Scripts
 
         private void LimitAngle()
         {
-            if (_angle > MAX_ROTATION && _angle < 90)
-                _angle = MAX_ROTATION;
-            else if (_angle < MIN_ROTATION || _angle > 90)
-                _angle = MIN_ROTATION;
+            if (_direction.y > _maxDirection.y)
+                _direction.y = _maxDirection.y;
+            else if(_direction.y < _minDirection.y)
+                _direction.y = _minDirection.y;
+            
+            if(_direction.x > _maxDirection.x)
+                _direction.x = _maxDirection.x;
+            else if(_direction.x < _minDirection.x)
+                _direction.x = _minDirection.x;
         }
     }
 }
